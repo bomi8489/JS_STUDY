@@ -12,7 +12,7 @@
 // let D = '2';
 // let E = 2;
 
-// console.log(D==E);
+// console.log(D==E);//
 // console.log(D===E);
 
 // console.log(0 == false);
