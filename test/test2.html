@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Commit_Mainpage_Member</title>
+    <link rel="stylesheet" href="/stylesheets/mainpage.css">
+    <link rel="stylesheet" href="/stylesheets/mainpage_member.css">
+</head>
+
+<body id="page-top">
+    <div class="fixed">
+        <div class="#button1">
+            <a class="button1" href="#page-top">
+                <div
+                    style="background-image: url(images/TOP.png); width: 50px; height: 50px; box-shadow: 0px 1px 10px -5px #000;">
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="navbar-wrap">
+            <div class="navheader">
+                <a href="#" class="Homebutton">CommIT</a>
+            </div>
+            <ul class="loginmenu">
+                <li type="none"><a href="#">LOGOUT</a></li>
+                <li type="none"><a href="#">MYPAGE</a></li>
+            </ul>
+            <div class="menuUL-wrap">
+                <ul class="menuUL">
+                    <li type="none"><a href="#">ABOUT</a></li>
+                    <li type="none"><a href="#">ACTIVITY</a></li>
+                    <li type="none"><a href="#">APPLY</a></li>
+                    <li type="none"><a href="#">CONTACT</a></li>
+                    <li type="none"><a href="#">BOARD</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <header>
+        <div class="header">
+            <div class="header-contents"></div>
+        </div>
+    </header>
+
+    <main id="mainID">
+        <section id="recent_post">
+            <div class="recent_post_all">
+                <div class="recent_post_title">
+                    <div class="rp_title">최근 게시글</div>
+                    <a href="#" class="goto_board_button">
+                        <div>
+                            게시판 바로가기
+                        </div>
+                    </a>
+                </div>
+                <div class="recent_post_wrap"><div class="recent_notice"></div><div class="recent_post"></div></div>
+                <div class="recent_post_wrap_992"><div class="recent_notice_992"></div><div class="recent_post_992"></div></div>
+                <div class="recent_post_wrap_480"><div class="recent_notice_480"></div><div class="recent_post_480"></div></div>
+            </div>
+            </div>
+        </section>
+
+        <section id="Contact">
+            <div class="contactbox">
+                <h2>CONTACT</h2>
+                <div class="contacttype">
+                    <div class="contact_1">
+                        <div class="contact_pic1"></div>
+                        <p class="contact_contents">010-0000-0000</p>
+                    </div>
+                    <div class="contact_2">
+                        <div class="contact_pic2"></div>
+                        <p class="contact_contents">email@email.com</p>
+                    </div>
+                    <div class="contact_3">
+                        <div class="contact_pic3"></div>
+                        <p class="contact_contents">facebook</p>
+                    </div>
+                    <div class="contact_4">
+                        <div class="contact_pic4"></div>
+                        <p class="contact_contents">instagram</p>
+                    </div>
+                    <div class="contact_5">
+                        <div class="contact_pic5"></div>
+                        <p class="contact_contents">KaKaoTalk</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="copyright_pic"></div>
+        <span class="copyright">copyright ⓒ CommIT 2021</span>
+    </footer>
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+        $(document).ready(function () {
+            console.log("mainpage_member running")
+            
+            var n = 0
+            var num = 1
+            var i = 0
+            var allpost
+            var notice
+            
+            loadpost()  // 게시글 로드
+            function loadpost() {
+                $.ajax({
+                    url: '/api/autumn/loadpost',
+                    dataType: "json",
+                    type: "POST",
+                    data: {
+                        category : 1
+                    },
+                    success: (res) => {
+                        console.log(res)
+                        n = res.result.length
+                        // console.log(n)
+                        allpost = res.result
+
+
+                        if(n>20){
+                            num = n-19
+                            for(i=n; i>=num; i--){
+                                loadpostbox(allpost,i,n)
+                            }
+                        }
+                        if(n>10){
+                            num = n-9
+                            for(i=n; i>=num; i--){
+                                loadpostbox_992(allpost,i,n)
+                            }
+                        }
+                        if(n>5){
+                            num = n-4
+                            for(i=n; i>=num; i--){
+                                loadpostbox_480(allpost,i,n)
+                            }
+                        }
+                    },
+                    error: (err) => {
+                        console.log(err)
+                    }
+                })
+            }
+
+            load_recent_notice()    // 상단에 고정시킬 공지사항만 로드
+            function load_recent_notice(){
+                $.ajax({
+                    url: '/api/autumn/load_notice',
+                    dataType: "json",
+                    type: "POST",
+                    data: {
+                        category: 0
+                    },
+                    success: (res) => {
+                        console.log('notice load success')
+                        notice = res.result
+                        if(notice.length>4){
+                            notice.length = 4
+                            for(i = 0; i<notice.length; i++){
+                                loadnoticebox(notice,i,n)
+                            }
+                        }
+                        if(notice.length>2){
+                            notice.length = 2
+                            for(i = 0; i<notice.length; i++){
+                                loadnoticebox_992(notice,i,n)
+                            }
+                        }
+                        if(notice.length>1){
+                            notice.length = 1
+                            for(i = 0; i<notice.length; i++){
+                                loadnoticebox_480(notice,i,n)
+                            }
+                        }
+                    },
+                    error: (err) => {
+                        console.log(err)
+                    }
+                })
+            }
+
+            
+
+            function loadnoticebox(notice,i,n){
+                var post;
+                post =  `<a href="post?post=${notice[i].id}" id="post_box${i}">
+                            <div class="${i}" style="opacity: 1;">
+                                <span>${notice[i].date}</span>
+                                <div class="fixed_pic"></div>
+                                <div id = "url${i}" class="post_img"></div>
+                            <p>${notice[i].content}</p>
+                            </div>
+                        </a>`
+                $('.recent_notice').append(post)
+                if (notice[i].url != null) {
+                    $('#url' + i).html('<img src="' + notice[i].url + '"></img>')
+                    $('#post_box'+i).css('height','247px')
+                }
+            }
+            function loadpostbox(posts,i,n) {
+                var post;
+                if(i>(n-4)){
+                    post = `<a href="post?post=${posts[i-1].id}" id="postbox${i}"><div class="${i}" style="opacity: 0.8;"><span>${posts[i-1].date}</span><div id = "url${i}" class="post_img"></div><p>${posts[i-1].content}</p></div></a>`
+                    $('.recent_post_wrap').append(post)
+                    if (posts[i-1].url != null) {
+                        $('#url' + i).html('<img src="' + posts[i-1].url + '"></img>')
+                        $('#postbox'+i).css('height','247px')
+                    }
+                }
+                else if((i>(n-8))&&(i<=(n-4))){
+                    post = `<a href="post?post=${posts[i-1].id}" id="postbox${i}"><div class="${i}" style="opacity: 0.6;"><span>${posts[i-1].date}</span><div id = "url${i}" class="post_img"></div><p>${posts[i-1].content}</p></div></a>`
+                    $('.recent_post_wrap').append(post)
+                    if (posts[i-1].url != null) {
+                        $('#url' + i).html('<img src="' + posts[i-1].url + '"></img>')
+                        $('#postbox'+i).css('height','247px')
+                    }
+                }
+                else if((i>(n-12))&&(i<=(n-8))){
+                    post = `<a href="post?post=${posts[i-1].id}" id="postbox${i}"><div class="${i}" style="opacity: 0.4;"><span>${posts[i-1].date}</span><div id = "url${i}" class="post_img"></div><p>${posts[i-1].content}</p></div></a>`
+                    $('.recent_post_wrap').append(post)
+                    if (posts[i-1].url != null) {
+                        $('#url' + i).html('<img src="' + posts[i-1].url + '"></img>')
+                        $('#postbox'+i).css('height','247px')
+                    }
+                }
+                else if((i>(n-16))&&(i<=(n-12))){
+                    post = `<a href="post?post=${posts[i-1].id}" id="postbox${i}"><div class="${i}" style="opacity: 0.2;"><span>${posts[i-1].date}</span><div id = "url${i}" class="post_img"></div><p>${posts[i-1].content}</p></div></a>`
+                    $('.recent_post_wrap').append(post)
+                    if (posts[i-1].url != null) {
+                        $('#url' + i).html('<img src="' + posts[i-1].url + '"></img>')
+                        $('#postbox'+i).css('height','247px')
+                    }
+                }
+            }
+
+            function loadnoticebox_992(notice,i,n){
+                var post;
+                post =  `<a href="post?post=${notice[i].id}" id="post_box_992${i}">
+                            <div class="${i}" style="opacity: 1;">
+                                <span>${notice[i].date}</span>
+                                <div class="fixed_pic"></div>
+                                <div id = "url_992${i}" class="post_img"></div>
+                            <p>${notice[i].content}</p>
+                            </div>
+                        </a>`
+                $('.recent_notice_992').append(post)
+                if (notice[i].url != null) {
+                    $('#url_992' + i).html('<img src="' + notice[i].url + '"></img>')
+                    $('#post_box_992'+i).css('height','247px')
+                }
+            }
+            function loadpostbox_992(posts,i,n) {
+                var post;
+                if(i>(n-2)){
+                    post = `<a href="post?post=${posts[i-1].id}" id="postbox_992${i}"><div class="${i}" style="opacity: 0.8;"><span>${posts[i-1].date}</span><div id = "url_992${i}" class="post_img"></div><p>${posts[i-1].content}</p></div></a>`
+                    $('.recent_post_wrap_992').append(post)
+                    if (posts[i-1].url != null) {
+                        console.log(posts[i-1].url)
+                        $('#url_992' + i).html('<img src="' + posts[i-1].url + '"></img>')
+                        $('#postbox_992'+i).css('height','247px')
+                    }
+                }
+                else if((i>(n-4))&&(i<=(n-2))){
+                    post = `<a href="post?post=${posts[i-1].id}" id="postbox_992${i}"><div class="${i}" style="opacity: 0.6;"><span>${posts[i-1].date}</span><div id = "url_992${i}" class="post_img"></div><p>${posts[i-1].content}</p></div></a>`
+                    $('.recent_post_wrap_992').append(post)
+                    if (posts[i-1].url != null) {
+                        console.log(posts[i-1].url)
+                        $('#url_992' + i).html('<img src="' + posts[i-1].url + '"></img>')
+                        $('#postbox_992'+i).css('height','247px')
+                    }
+                }
+                else if((i>(n-6))&&(i<=(n-4))){
+                    post = `<a href="post?post=${posts[i-1].id}" id="postbox_992${i}"><div class="${i}" style="opacity: 0.4;"><span>${posts[i-1].date}</span><div id = "url_992${i}" class="post_img"></div><p>${posts[i-1].content}</p></div></a>`
+                    $('.recent_post_wrap_992').append(post)
+                    if (posts[i-1].url != null) {
+                        console.log(posts[i-1].url)
+                        $('#url_992' + i).html('<img src="' + posts[i-1].url + '"></img>')
+                        $('#postbox_992'+i).css('height','247px')
+                    }
+                }
+                else if((i>(n-8))&&(i<=(n-6))){
+                    post = `<a href="post?post=${posts[i-1].id}" id="postbox_992${i}"><div class="${i}" style="opacity: 0.2;"><span>${posts[i-1].date}</span><div id = "url_992${i}" class="post_img"></div><p>${posts[i-1].content}</p></div></a>`
+                    $('.recent_post_wrap_992').append(post)
+                    if (posts[i-1].url != null) {
+                        console.log(posts[i-1].url)
+                        $('#url_992' + i).html('<img src="' + posts[i-1].url + '"></img>')
+                        $('#postbox_992'+i).css('height','247px')
+                    }
+                }
+            }
+
+            function loadnoticebox_480(notice,i,n){
+                var post;
+                post =  `<a href="post?post=${notice[i].id}" id="postbox_480${i}">
+                            <div class="${i}" style="opacity: 1;">
+                                <span>${notice[i].date}</span>
+                                <div class="fixed_pic"></div>
+                                <div id = "url_480${i}" class="post_img"></div>
+                            <p>${notice[i].content}</p>
+                            </div>
+                        </a>`
+                $('.recent_notice_480').append(post)
+                if (notice[i].url != null) {
+                    $('#url_480' + i).html('<img src="' + notice[i].url + '"></img>')
+                    $('#postbox_480'+i).css('height','247px')
+                }
+            }
+            function loadpostbox_480(posts,i,n) {
+                var post;
+                if(i>(n-1)){
+                    post = `<a href="post?post=${posts[i-1].id}" id="postbox_480${i}"><div class="${i}" style="opacity: 0.8;"><span>${posts[i-1].date}</span><div id = "url_480${i}" class="post_img"></div><p>${posts[i-1].content}</p></div></a>`
+                    $('.recent_post_wrap_480').append(post)
+                    if (posts[i-1].url != null) {
+                        $('#url_480' + i).html('<img src="' + posts[i-1].url + '"></img>')
+                        $('#postbox_480'+i).css('height','247px')
+                    }
+                }
+                else if((i>(n-2))&&(i<=(n-1))){
+                    post = `<a href="post?post=${posts[i-1].id}" id="postbox_480${i}"><div class="${i}" style="opacity: 0.6;"><span>${posts[i-1].date}</span><div id = "url_480${i}" class="post_img"></div><p>${posts[i-1].content}</p></div></a>`
+                    $('.recent_post_wrap_480').append(post)
+                    if (posts[i-1].url != null) {
+                        $('#url_480' + i).html('<img src="' + posts[i-1].url + '"></img>')
+                        $('#postbox_480'+i).css('height','247px')
+                    }
+                }
+                else if((i>(n-3))&&(i<=(n-2))){
+                    post = `<a href="post?post=${posts[i-1].id}" id="postbox_480${i}"><div class="${i}" style="opacity: 0.4;"><span>${posts[i-1].date}</span><div id = "url_480${i}" class="post_img"></div><p>${posts[i-1].content}</p></div></a>`
+                    $('.recent_post_wrap_480').append(post)
+                    if (posts[i-1].url != null) {
+                        $('#url_480' + i).html('<img src="' + posts[i-1].url + '"></img>')
+                        $('#postbox_480'+i).css('height','247px')
+                    }
+                }
+                else if((i>(n-4))&&(i<=(n-3))){
+                    post = `<a href="post?post=${posts[i-1].id}" id="postbox_480${i}"><div class="${i}" style="opacity: 0.2;"><span>${posts[i-1].date}</span><div id = "url_480${i}" class="post_img"></div><p>${posts[i-1].content}</p></div></a>`
+                    $('.recent_post_wrap_480').append(post)
+                    if (posts[i-1].url != null) {
+                        $('#url_480' + i).html('<img src="' + posts[i-1].url + '"></img>')
+                        $('#postbox_480'+i).css('height','247px')
+                    }
+                }
+            }
+
+
+        })
+
+        
+
+    </script>
+
+</body>
+
+</html>

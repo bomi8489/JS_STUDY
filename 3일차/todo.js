@@ -19,7 +19,7 @@ function show_list(text) {
 }
 
 listForm.addEventListener("submit", (e) => {
-  e.preventDefault();
+  e.preventDefault();     // 기존에 존재하는 이벤트를 사용하지 말라는 함수
   const input = e.target.querySelector("input");
   show_list(input.value);
   input.value = "";
