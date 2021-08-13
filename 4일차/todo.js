@@ -1,11 +1,10 @@
-  
 const containerBox = document.querySelector("#containerBox"),
-      contents = containerBox.querySelector("#contents"),
-      list = contents.querySelector("#list"),
-      inputList = document.querySelector(".inputlist"),
-      listForm = inputList.querySelector("#listForm"),
-      newbtn = document.querySelector("#newbtn"),
-      input = listForm.querySelector("input");
+    contents = containerBox.querySelector("#contents"),
+    list = contents.querySelector("#list"),
+    inputList = document.querySelector(".inputlist"),
+    listForm = inputList.querySelector("#listForm"),
+    input = listForm.querySelector("input");
+
 
 let todos = [];
 
@@ -18,12 +17,12 @@ function createList(text) {
 
   const index = todos.length+1;
 
-  delbtn.addEventListener("click", deleteList);
+
   
   li.appendChild(div);      // li태그에 div 자식추가
   li.appendChild(delbtn);   // li태그에 belbtn 자식추가
   list.appendChild(li);     // list(ul태그)에 li태그 추가
-
+  delbtn.addEventListener("click", deleteList);
   
   li.id = index;
 
