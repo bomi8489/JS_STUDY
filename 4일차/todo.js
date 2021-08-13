@@ -27,9 +27,9 @@ function createList(text) {
   
   li.id = index;
 
-  const todoList = {
-    item: text,
-    id: index
+  const todoList={
+    item : text,
+    id : index
   }
 
   todos.push(todoList);
@@ -37,21 +37,21 @@ function createList(text) {
 }
 
 function loadList() {
-  const loadedList = localStorage.getItem("todos"); //로컬 스토리지에 있는 key가 toto인 요소들을 가져옴(문자열)
+  const loadedList = localStorage.getItem("todos"); 
   if(loadedList !== null){
-      const parsedData = JSON.parse(loadedList); //문자열로 가져온 요소들을 객체로 변환
-      parsedData.forEach(function(toDo){ //객체의 text들을 edittodolist 함수에 넣어 리스트를 가져옴
+      const parsedData = JSON.parse(loadedList); 
+      parsedData.forEach(function(toDo){
         createList(toDo.text);
       });
   }
 }
 
-function saveList() {     // 로컬스토리지에 "todos" 키로 객체를 value로 저장
+function saveList() {
   localStorage.setItem("todos", JSON.stringify(todos));
 }
 
 function submitList(e) {  
-  e.preventDefault();     // 기존에 존재하는 이벤트(새로고침) 중지
+  e.preventDefault();
   const inpuvalue = input.value;
   createList(inpuvalue);
   input.value = "";
