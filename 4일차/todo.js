@@ -35,17 +35,16 @@ function createList(text) {
   saveList();
 }
 
-function loadList() {
-  const loadedList = localStorage.getItem("todos"); 
+function loadList() { // 리스트 로드함수
+  const loadedList = JSON.parse(localStorage.getItem("todos"));   // 로컬 스토리지에서 키가 "todos"인 값들을 객체로 가져옴
   if(loadedList !== null){
-      const parsedData = JSON.parse(loadedList); 
-      parsedData.forEach(function(toDo){
+      loadedList.forEach(function(toDo){
         createList(toDo.text);
       });
   }
 }
 
-function saveList() {
+function saveList() { // 리스트 저장함수
   localStorage.setItem("todos", JSON.stringify(todos));
 }
 
