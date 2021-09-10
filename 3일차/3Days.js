@@ -44,13 +44,13 @@
 // function test(){} //함수 선언문
 // let test2 = function(){}  //함수 표현식
 
-// function test(){
-//     for (let i =0 ; i <5; i++){
-//         setTimeout(function(){
-//             console.log(i)
-//         },0)
-//     }
-// }
+function test(){
+    for (let i =0 ; i <5; i++){
+        setTimeout(function(){
+            console.log(i)
+        },0)
+    }
+}
 // function test2(){
 //     for (var i =0 ; i <5; i++){
 //         setTimeout(function(){
@@ -59,7 +59,7 @@
 //     }
 //     console.log(i);
 // }
-
+test();
 // // test();
 // test2();
 
@@ -117,13 +117,13 @@
 // console.log(user);
 // console.log(user2);
 
-let check = (obj) =>{
-    if(obj.age >40){
-        obj.check =true;
-    }
-    return{obj}
-}
+// let check = (obj) =>{
+//     if(obj.age >40){
+//         obj.check =true;
+//     }
+//     return{obj}
+// }
 
-let person = {name:"kim",age:50}
-check(person);
-console.log(person);
+// let person = {name:"kim",age:50}
+// check(person);
+// console.log(person);
